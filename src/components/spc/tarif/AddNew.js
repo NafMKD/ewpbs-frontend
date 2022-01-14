@@ -9,7 +9,8 @@ class AddNew extends Component {
         super(props);
         this.state = {
             fields : {},
-            errors : {}
+            errors : {},
+            account_user : {}
         }
     }
     // handle validation
@@ -76,7 +77,7 @@ class AddNew extends Component {
             Swal.showLoading();
             const api = "http://127.0.0.1:8000/api/spc/tarif";
             axios.post(api, {
-                'spc_id' : 1,
+                'spc_id' : this.state.account_user.spc_id,
                 'spc_tarif_meter_min' : this.state.fields['spc_tarif_meter_min'],
                 'spc_tarif_meter_max' : this.state.fields['spc_tarif_meter_max'],
                 'spc_tarif_amount' : this.state.fields['spc_tarif_amount']
@@ -112,6 +113,14 @@ class AddNew extends Component {
             });
         }
     }
+
+    // loading user
+    componentDidMount(){
+        let account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user 
+        });
+    }
     render() {
         return (
             <div className="content-wrapper">
@@ -119,14 +128,14 @@ class AddNew extends Component {
                 <div className="container-fluid">
                 <div className="row mb-2">
                     <div className="col-sm-6">
-                    <h1 className="m-0">Add Service Provider</h1>
+                    <h1 className="m-0">Add Tarif</h1>
                     </div>
                 </div>
                 </div>
             </div>
             <section className="content">
                 <div className="container-fluid">
-                    <AddInfo inputHandler={this.inputHandler} submitForm={this.submitForm} state={this.state}/>
+                    <AddInfo inputHandler={this.inputHandler} account_user={this.state.account_user} submitForm={this.submitForm} state={this.state}/>
                 </div>
             </section>
             </div>

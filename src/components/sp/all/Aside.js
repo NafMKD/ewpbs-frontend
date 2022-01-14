@@ -2,10 +2,11 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Aside = (props) => {
+  const {sp_name} = JSON.parse(localStorage.getItem('account_user'));
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a href="index3.html" className="brand-link">
-        <span className="brand-text font-weight-light">Service Provider</span>
+        <span className="brand-text font-weight-light">S.P. : {sp_name}</span>
       </a>
     
       <div className="sidebar">

@@ -11,7 +11,8 @@ class AddNew extends Component {
         this.state = {
             fields : {},
             errors : {},
-            nextPage : false
+            nextPage : false,
+            account_user : {}
         }
     }
     // handle validation
@@ -108,7 +109,7 @@ class AddNew extends Component {
             Swal.showLoading();
             const api = "http://127.0.0.1:8000/api/sp";
             axios.post(api, {
-                'spc_id' : 1,
+                'spc_id' : this.state.account_user.spc_id,
                 'sp_name' : this.state.fields['sp_name'],
                 'sp_region' : this.state.fields['sp_region'],
                 'sp_zone' : this.state.fields['sp_zone'],
@@ -148,6 +149,14 @@ class AddNew extends Component {
             });
         }
     }
+
+    // loading user
+    componentDidMount(){
+        let account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user 
+        });
+    }
     render() {
         return (
             <div className="content-wrapper">
@@ -162,7 +171,7 @@ class AddNew extends Component {
             </div>
             <section className="content">
                 <div className="container-fluid">
-                    {this.state.nextPage ? <AddAccount submitForm={this.submitForm} inputHandler={this.inputHandler} changePageBtn={this.changePageBtn} state={this.state}/> :<AddInfo inputHandler={this.inputHandler} changePageBtn={this.changePageBtn} state={this.state}/>}
+                    {this.state.nextPage ? <AddAccount account_user={this.state.account_user} submitForm={this.submitForm} inputHandler={this.inputHandler} changePageBtn={this.changePageBtn} state={this.state}/> :<AddInfo account_user={this.state.account_user} inputHandler={this.inputHandler} changePageBtn={this.changePageBtn} state={this.state}/>}
                 </div>
             </section>
             </div>

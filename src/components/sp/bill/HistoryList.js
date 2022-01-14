@@ -1,55 +1,64 @@
-import React, { Component } from 'react'
-import DataTable, {createTheme} from 'react-data-table-component'
-import axios from 'axios'
-import Swal from 'sweetalert2'
-import moment from 'moment';
+import React, { Component } from "react";
+import DataTable, { createTheme } from "react-data-table-component";
+import axios from "axios";
+import Swal from "sweetalert2";
+import moment from "moment";
 
 class HistoryList extends Component {
-    // constractor
-    constructor(props){
-        super(props);
-        this.state = {
-            bill : {},
-            isLoaded : false
-        }
-    }
-    // fetching data when it mounts
-    componentDidMount(){
-        const api = "http://127.0.0.1:8000/api/historybill/sp/1"
-        axios.get(api).then(res => {
-            this.setState({
-                bill : res.data,
-                isLoaded : true
-            })
-        }).catch(err =>{
-            this.setState({
-              isLoaded : true
-            })
-            console.log(err);
-            Swal.close();
-            Swal.fire({
-                title: 'Something went wrong!',
-                icon: 'error',
-                text: 'we loss connection to the database!',
-                showCancelButton: false,
-                showConfirmButton: false
-            })
-        });
+  // constractor
+  constructor(props) {
+    super(props);
+    this.state = {
+      bill: {},
+      isLoaded: false,
+      account_user: {},
     };
-
-    // loding modal display
-    loadingPage = () =>{
-        Swal.fire({
-            width:'10%',
-            allowOutsideClick:false,
-            allowEscapeKey:false,
-            allowEnterKey:false
+  }
+  // fetching data when it mounts
+  componentDidMount() {
+    const account_user = JSON.parse(localStorage.getItem("account_user"));
+    this.setState({
+      account_user,
+    });
+    const api =
+      "http://127.0.0.1:8000/api/historybill/sp/" + account_user.sp_id;
+    axios
+      .get(api)
+      .then((res) => {
+        this.setState({
+          bill: res.data,
+          isLoaded: true,
         });
-        Swal.showLoading();
-        return <p>No data available...</p>
-    }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoaded: true,
+        });
+        console.log(err);
+        Swal.close();
+        Swal.fire({
+          title: "Something went wrong!",
+          icon: "error",
+          text: "we loss connection to the database!",
+          showCancelButton: false,
+          showConfirmButton: false,
+        });
+      });
+  }
 
-    // data table diaplay
+  // loding modal display
+  loadingPage = () => {
+    Swal.fire({
+      width: "10%",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+    });
+    Swal.showLoading();
+    return <p>No data available...</p>;
+  };
+
+  // data table diaplay
   dataPage = () => {
     Swal.close();
     const customStyles = {
@@ -109,7 +118,12 @@ class HistoryList extends Component {
       },
       {
         name: "Customer Name",
-        selector: (row) => row.customer_first_name +" "+row.customer_middle_name +" "+row.customer_last_name,
+        selector: (row) =>
+          row.customer_first_name +
+          " " +
+          row.customer_middle_name +
+          " " +
+          row.customer_last_name,
         sortable: true,
       },
       {
@@ -136,7 +150,7 @@ class HistoryList extends Component {
         name: "Reading Month",
         selector: (row) => moment(row.ac_month_year).format("MM/YYYY"),
         sortable: true,
-      }
+      },
     ];
     return (
       <DataTable
@@ -149,33 +163,33 @@ class HistoryList extends Component {
       />
     );
   };
-    render() {
-        return (
-            <div className="content-wrapper">
-            <div className="content-header">
-                <div className="container-fluid">
-                <div className="row mb-2">
-                    <div className="col-sm-6">
-                    <h1 className="m-0">Bill List</h1>
-                    </div>
-                </div>
-                </div>
+  render() {
+    return (
+      <div className="content-wrapper">
+        <div className="content-header">
+          <div className="container-fluid">
+            <div className="row mb-2">
+              <div className="col-sm-6">
+                <h1 className="m-0">Bill List</h1>
+              </div>
             </div>
-            <section className="content">
-                <div className="container-fluid">
-                    <div className="card card-outline card-primary">
-                        <div className="card-header">
-                            <h3 className="card-title">Paid Bill List:</h3>
-                        </div>
-                        <div className="card-body">
-                            <br/>
-                            {this.state.isLoaded ?  this.dataPage()  : this.loadingPage()}
-                        </div>
-                    </div>                      
-                </div>
-            </section>
+          </div>
+        </div>
+        <section className="content">
+          <div className="container-fluid">
+            <div className="card card-outline card-primary">
+              <div className="card-header">
+                <h3 className="card-title">Paid Bill List:</h3>
+              </div>
+              <div className="card-body">
+                <br />
+                {this.state.isLoaded ? this.dataPage() : this.loadingPage()}
+              </div>
             </div>
-        )
-    }
+          </div>
+        </section>
+      </div>
+    );
+  }
 }
 export default HistoryList;

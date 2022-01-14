@@ -8,9 +8,9 @@ const GetID = (props) => {
     const {sp_id} = useParams();
     return (
         <Routes>
-            <Route path="/bill/active" element={<ActiveList customerInformation={props.customerInformation} sp_id={sp_id}/>}/>
-            <Route path="/bill/paid" element={<PaidList customerInformation={props.customerInformation} sp_id={sp_id}/>}/>
-            <Route path="/bill/paybill/:bill_id/*" element={<GetBillId customerInformation={props.customerInformation} sp_id={sp_id}/>}/>
+            <Route path="/bill/active" element={<ActiveList  sp_id={sp_id}/>}/>
+            <Route path="/bill/paid" element={<PaidList sp_id={sp_id}/>}/>
+            <Route path="/bill/paybill/:bill_id/*" element={<GetBillId sp_id={sp_id}/>}/>
         </Routes>
     )
 }

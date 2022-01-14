@@ -8,17 +8,27 @@ class ListView extends Component {
     constructor(props){
         super(props);
         this.state = {
-            customer : {}
+            customer : {},
+            isLoaded : false,
+            account_user : {}
         }
     }
     // fetching data when it mounts
     componentDidMount(){
-        const api = "http://127.0.0.1:8000/api/customersprelation/sp/1"
+        const account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user
+        })
+        const api = "http://127.0.0.1:8000/api/customersprelation/sp/"+account_user.sp_id;
         axios.get(api).then(res => {
             this.setState({
-                customer : res.data
+                customer : res.data,
+                isLoaded :true
             })
         }).catch(err =>{
+            this.setState({
+                isLoaded :true
+            })
             console.log(err);
             Swal.close();
             Swal.fire({
@@ -131,7 +141,7 @@ class ListView extends Component {
                     customStyles={customStyles}
                     theme="solarized"
                     pagination
-                />;
+                /> ;
     }
     render() {
         return (
@@ -153,7 +163,7 @@ class ListView extends Component {
                         </div>
                         <div className="card-body">
                             <br/>
-                            {this.state.customer.length ?  this.dataPage()  : this.loadingPage()}
+                            { this.state.isLoaded ?  this.dataPage()  : this.loadingPage()}
                         </div>
                     </div>                      
                 </div>

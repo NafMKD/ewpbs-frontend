@@ -9,17 +9,27 @@ class ListView extends Component {
     constructor(props){
         super(props);
         this.state = {
-            spc : {}
+            spc : {},
+            account_user : {},
+            isLoaded : false
         }
     }
     // fetching data when it mounts
     componentDidMount(){
+        let account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user 
+        });
         const api = "http://127.0.0.1:8000/api/spc"
         axios.get(api).then(res => {
             this.setState({
-                spc : res.data
+                spc : res.data,
+                isLoaded : true
             })
         }).catch(err =>{
+            this.setState({
+                isLoaded : true
+            })
             console.log(err);
             Swal.close();
             Swal.fire({
@@ -127,6 +137,7 @@ class ListView extends Component {
                     pagination
                 />;
     }
+
     render() {
         return (
             <div className="content-wrapper">
@@ -147,7 +158,7 @@ class ListView extends Component {
                         </div>
                         <div className="card-body">
                             <br/>
-                            {this.state.spc.length ?  this.dataPage()  : this.loadingPage()}
+                            {this.state.isLoaded ?  this.dataPage()  : this.loadingPage()}
                         </div>
                     </div>                      
                 </div>

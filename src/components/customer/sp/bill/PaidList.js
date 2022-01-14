@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Swal from "sweetalert2";
 import DataTable, { createTheme } from "react-data-table-component";
 import moment from "moment";
-import { Link } from "react-router-dom";
 
 class PaidList extends Component {
   constructor(props) {
@@ -12,12 +11,17 @@ class PaidList extends Component {
       sp_id: this.props.sp_id,
       historyBill: {},
       isLoaded: false,
+      account_user : {}
     };
   }
 
   componentDidMount() {
+    const account_user = JSON.parse(localStorage.getItem('account_user'));
+    this.setState({
+      account_user
+    });
     const api =
-      "http://127.0.0.1:8000/api/customer/1/sp/" +
+      "http://127.0.0.1:8000/api/customer/"+account_user.customer_id+"/sp/" +
       this.state.sp_id +
       "/historybill";
     axios
@@ -43,16 +47,6 @@ class PaidList extends Component {
         });
       });
   }
-  // table action controller
-  tableAction = (e) =>{
-      return (
-          <Link to={"/customer/sp/"+this.state.sp_id+"/bill/paybill/"+e}>
-              <button className="btn btn-success">
-                <i className="fas fa-check"/> Pay
-              </button>
-          </Link>
-      );
-  } 
   // loding modal display
   loadingPage = () => {
     Swal.fire({
@@ -145,7 +139,7 @@ class PaidList extends Component {
       },
       {
         name: "Payment Date",
-        selector: (row) => moment(row.hs_paid_date).format("MM/YYYY"),
+        selector: (row) => moment(row.hs_paid_date).format("DD/MM/YYYY"),
         sortable: true,
       },
       {

@@ -9,18 +9,28 @@ class ListView extends Component {
     constructor(props){
         super(props);
         this.state = {
-            tarif : {}
+            tarif : {},
+            account_user : {},
+            isLoaded : false
         }
     }
 
     // fetching data when it mounts
     componentDidMount(){
-        const api = "http://127.0.0.1:8000/api/spc/tarif/spc/1"
+        let account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user 
+        });
+        const api = "http://127.0.0.1:8000/api/spc/tarif/spc/"+account_user.spc_id;
         axios.get(api).then(res => {
             this.setState({
-                tarif : res.data.data.tarifs
+                tarif : res.data.data.tarifs,
+                isLoaded : true
             })
         }).catch(err =>{
+            this.setState({
+                isLoaded : true
+            })
             console.log(err);
             Swal.close();
             Swal.fire({
@@ -158,7 +168,7 @@ class ListView extends Component {
                         </div>
                         <div className="card-body">
                             <br/>
-                            {this.state.tarif.length ?  this.dataPage()  : this.loadingPage()
+                            {this.state.isLoaded ?  this.dataPage()  : this.loadingPage()
                             }
                         </div>
                     </div>                      

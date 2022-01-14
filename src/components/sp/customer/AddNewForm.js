@@ -8,20 +8,30 @@ class AddNewForm extends Component {
     super(props);
     this.state = {
       customer : {},
-      customer_id : this.props.customer_id
+      customer_id : this.props.customer_id,
+      isLoaded : false,
+      account_user : {}
     }
   }
 
   componentDidMount(){
+    const account_user = JSON.parse(localStorage.getItem('account_user'));
+    this.setState({
+      account_user
+    });
     const api = "http://127.0.0.1:8000/api/customer/" + this.state.customer_id;
     axios
       .get(api)
       .then((res) => {
         this.setState({
-          customer : res.data
+          customer : res.data,
+          isLoaded :true
         });
       })
       .catch((err) => {
+        this.setState({
+          isLoaded :true
+        });
         console.error(err);
       });
   }
@@ -44,7 +54,7 @@ class AddNewForm extends Component {
     let sp = this.state.customer.data.sp_information;
     for (let i = 0; i < Object.keys(sp).length; i++) {
       const element = sp[i];
-      if(element.sp_id === 1) isValid = false;
+      if(element.sp_id === this.state.account_user.sp_id) isValid = false;
     }
 
     return isValid;
@@ -53,7 +63,7 @@ class AddNewForm extends Component {
   // data view
   dataView = () => {
     Swal.close();
-    return (
+    return Object.keys(this.state.customer).length ? (
       <div className="card card-outline card-primary">
         <div className="card-header">
           <h3 className="card-title">Customer Detail:</h3>
@@ -89,7 +99,7 @@ class AddNewForm extends Component {
           </Link>
         </div>):""}
       </div>
-    );
+    ): (<div>No data Found</div>);
   };
   render(){
     return (
@@ -105,7 +115,7 @@ class AddNewForm extends Component {
         </div>
         <section className="content">
           <div className="container-fluid">
-            {Object.keys(this.state.customer).length ? this.dataView() : this.loadingPage()}
+            {this.state.isLoaded ? this.dataView() : this.loadingPage()}
           </div>
         </section>
       </div>

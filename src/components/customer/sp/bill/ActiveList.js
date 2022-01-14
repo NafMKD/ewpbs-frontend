@@ -12,12 +12,17 @@ class Activelist extends Component {
       sp_id: this.props.sp_id,
       activeBills: {},
       isLoaded: false,
+      account_user : {}
     };
   }
 
   componentDidMount() {
+    const account_user = JSON.parse(localStorage.getItem('account_user'));
+    this.setState({
+      account_user
+    });
     const api =
-      "http://127.0.0.1:8000/api/customer/1/sp/" +
+      "http://127.0.0.1:8000/api/customer/"+account_user.customer_id+"/sp/" +
       this.state.sp_id +
       "/activebill";
     axios

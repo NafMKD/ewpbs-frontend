@@ -1,10 +1,11 @@
+import moment from "moment";
 import React from "react";
 
 const Footer = (props) => {
   return (
     <footer className="main-footer">
       <strong>
-        Copyright © {new Date().getFullYear} <a target="_blank" href="http://linose-studio.herokuapp.com/" rel="noreferrer">Linose <em>Studio</em></a>.
+        Copyright © {moment(new Date()).format("Y")} <a target="_blank" href="http://linose-studio.herokuapp.com/" rel="noreferrer">Linose <em>Studio</em></a>.
       </strong>
       All rights reserved.
       <div className="float-right d-none d-sm-inline-block">

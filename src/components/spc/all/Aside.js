@@ -2,16 +2,17 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Aside = (props) => {
+  const {spc_name} = JSON.parse(localStorage.getItem('account_user'));
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <Link to="#" className="brand-link">
-        <span className="brand-text font-weight-light">S.P.C.</span>
+        <span className="brand-text font-weight-light">S.P.C. {spc_name}</span>
       </Link>
     
       <div className="sidebar">
         <div className="user-panel mt-3 pb-3 mb-3 d-flex"></div>
         <nav className="mt-2">
-          <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <ul className="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
             
             <li className="nav-item">
               <NavLink to="/" className="nav-link">

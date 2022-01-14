@@ -2,78 +2,68 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Aside = (props) => {
-  const { sp_information } = props.customerInformation.data;
-  const SpList = sp_information.map((sp) => {
-    return (<li className="nav-item" key={sp.sp_id}>
-      <Link to="#" className="nav-link">
-        <i className="nav-icon fas fa-university" />
-        <p> {sp.sp_name} </p>
-        <i className="right nav-icon fas fa-angle-left" />
-      </Link>
-      <ul className="nav nav-treeview">
-        <li className="nav-item">
-          <NavLink to={"/customer/sp/"+sp.sp_id+"/detail"} className="nav-link">
-            <i className="nav-icon fas fa-info-circle" />
-            <p>Detail</p>
-          </NavLink>
-        </li>
-
-        <li className="nav-item">
+  const { sp_information, customer_first_name, customer_middle_name } = JSON.parse(localStorage.getItem("account_user"));
+  const SpList = sp_information.length ? (
+    sp_information.map((sp) => {
+      return (
+        <li className="nav-item" key={sp.sp_id}>
           <Link to="#" className="nav-link">
-            <i className="nav-icon fas fa-file-invoice-dollar" />
-            <p>Bill</p>
-            <i className="right nav-icon fas fa-angle-left" />
-          </Link>
-          <ul className="nav nav-treeview">
-            <li className="nav-item">
-              <NavLink to={"/customer/sp/"+sp.sp_id+"/bill/active"} className="nav-link">
-                <i className="nav-icon far fa-dot-circle" />
-                <p>Active Bill</p>
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to={"/customer/sp/"+sp.sp_id+"/bill/paid"} className="nav-link">
-                <i className="nav-icon far fa-dot-circle" />
-                <p>Paid Bill</p>
-              </NavLink>
-            </li>
-          </ul>
-        </li>
-
-        <li className="nav-item">
-          <Link to="#" className="nav-link">
-            <i className="nav-icon fas fa-comment-dots" />
-            <p>Complain</p>
+            <i className="nav-icon fas fa-university" />
+            <p> {sp.sp_name} </p>
             <i className="right nav-icon fas fa-angle-left" />
           </Link>
           <ul className="nav nav-treeview">
             <li className="nav-item">
               <NavLink
-                to={"/customer/sp/"+sp.sp_id+"/complain/addnew"}
+                to={"/customer/sp/" + sp.sp_id + "/detail"}
                 className="nav-link"
               >
-                <i className="nav-icon fas fa-plus" />
-                <p>Add Complain</p>
+                <i className="nav-icon fas fa-info-circle" />
+                <p>Detail</p>
               </NavLink>
             </li>
+
             <li className="nav-item">
-              <NavLink
-                to={"/customer/sp/"+sp.sp_id+"/complain/listview"}
-                className="nav-link"
-              >
-                <i className="nav-icon fas fa-list" />
-                <p>View Complain</p>
-              </NavLink>
+              <Link to="#" className="nav-link">
+                <i className="nav-icon fas fa-file-invoice-dollar" />
+                <p>Bill</p>
+                <i className="right nav-icon fas fa-angle-left" />
+              </Link>
+              <ul className="nav nav-treeview">
+                <li className="nav-item">
+                  <NavLink
+                    to={"/customer/sp/" + sp.sp_id + "/bill/active"}
+                    className="nav-link"
+                  >
+                    <i className="nav-icon far fa-dot-circle" />
+                    <p>Active Bill</p>
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to={"/customer/sp/" + sp.sp_id + "/bill/paid"}
+                    className="nav-link"
+                  >
+                    <i className="nav-icon far fa-dot-circle" />
+                    <p>Paid Bill</p>
+                  </NavLink>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>
-      </ul>
-    </li>)
-  });
+      );
+    })
+  ) : (
+    <Link to="#" className="nav-link">
+      <i className="nav-icon fas fa-warning" />
+      <p> no service provider </p>
+    </Link>
+  );
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a href="index3.html" className="brand-link">
-        <span className="brand-text font-weight-light">Customer</span>
+        <span className="brand-text font-weight-light">Customer : {customer_first_name} {customer_middle_name}</span>
       </a>
 
       <div className="sidebar">

@@ -9,7 +9,7 @@ class Paybill extends Component {
         this.state = {
             billDetail : {},
             isLoaded : false,
-            customerInformation: this.props.customerInformation.data,
+            account_user: {},
             spInformation : {},
             sp_id : this.props.sp_id,
             bill_id : this.props.bill_id
@@ -17,6 +17,10 @@ class Paybill extends Component {
     }
 
     componentDidMount(){
+      const account_user = JSON.parse(localStorage.getItem('account_user'));
+      this.setState({
+        account_user
+      });
         let api = "http://127.0.0.1:8000/api/sp/"+this.state.sp_id;
         let api2 = "http://127.0.0.1:8000/api/activebill/"+this.state.bill_id;
         axios.get(api).then(res =>{
@@ -135,13 +139,13 @@ class Paybill extends Component {
                     <div className="col-sm-4 invoice-col">
                       To
                       <address>
-                        <strong>{this.state.customerInformation.customer_first_name} {this.state.customerInformation.customer_middle_name} {this.state.customerInformation.customer_last_name}</strong>
+                        <strong>{this.state.account_user.customer_first_name} {this.state.account_user.customer_middle_name} {this.state.account_user.customer_last_name}</strong>
                         <br />
-                        {this.state.customerInformation.customer_region}, {this.state.customerInformation.customer_town}
+                        {this.state.account_user.customer_region}, {this.state.account_user.customer_town}
                         <br />
-                        {this.state.customerInformation.customer_house_no}
+                        {this.state.account_user.customer_house_no}
                         <br />
-                        {this.state.customerInformation.customer_phone}
+                        {this.state.account_user.customer_phone}
                       </address>
                     </div>
                     <div className="col-sm-4 invoice-col">
@@ -163,7 +167,7 @@ class Paybill extends Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{this.state.customerInformation.customer_first_name} {this.state.customerInformation.customer_middle_name} {this.state.customerInformation.customer_last_name}</td>
+                            <td>{this.state.account_user.customer_first_name} {this.state.account_user.customer_middle_name} {this.state.account_user.customer_last_name}</td>
                             <td>{moment(this.state.billDetail.ac_month_year).format("MM/YYYY")}</td>
                             <td>{this.state.billDetail.ac_meter_reading_previous}</td>
                             <td>{this.state.billDetail.ac_meter_reading}</td>

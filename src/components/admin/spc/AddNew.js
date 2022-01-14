@@ -11,7 +11,8 @@ class AddNew extends Component {
         this.state = {
             fields : {},
             errors : {},
-            nextPage : false
+            nextPage : false,
+            account_user : {}
         }
     }
 
@@ -123,6 +124,14 @@ class AddNew extends Component {
             });
         }
     }
+
+    // loading user
+    componentDidMount(){
+        let account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user 
+        });
+    }
     render() {
         return (
             <div className="content-wrapper">
@@ -137,7 +146,7 @@ class AddNew extends Component {
             </div>
             <section className="content">
                 <div className="container-fluid">
-                    {this.state.nextPage?<AddAccount changePageBtn={this.changePageBtn} inputChangeHandler={this.inputChangeHandler} state={this.state} submitFormBtn={this.submitFormBtn}/>:<AddInfo changePageBtn={this.changePageBtn} inputChangeHandler={this.inputChangeHandler} state={this.state}/>}
+                    {this.state.nextPage?<AddAccount account_user={this.state.account_user} changePageBtn={this.changePageBtn} inputChangeHandler={this.inputChangeHandler} state={this.state} submitFormBtn={this.submitFormBtn}/>:<AddInfo changePageBtn={this.changePageBtn} inputChangeHandler={this.inputChangeHandler} state={this.state}/>}
                 </div>
             </section>
             </div>

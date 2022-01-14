@@ -10,19 +10,29 @@ class Recordlist extends Component {
     super(props);
     this.state = {
       records: {},
+      account_user : {},
+      isLoaded : false
     };
   }
   // fetching data when it mounts
   componentDidMount() {
-    const api = "http://127.0.0.1:8000/api/meterrecord/spemployee/1";
+    const account_user = JSON.parse(localStorage.getItem('account_user'));
+    this.setState({
+      account_user
+    });
+    const api = "http://127.0.0.1:8000/api/meterrecord/spemployee/"+account_user.sp_emp_id;
     axios
       .get(api)
       .then((res) => {
         this.setState({
             records: res.data,
+            isLoaded : true
         });
       })
       .catch((err) => {
+        this.setState({
+          isLoaded : true
+      });
         console.log(err);
         Swal.close();
         Swal.fire({
@@ -127,7 +137,7 @@ class Recordlist extends Component {
       },
       {
         name: "Status",
-        selector: (row) => (row.status)?"Bill Generated":"Bill Not Generated",
+        selector: (row) => (row.status)?"Bill Not Generated":"Bill Generated",
         sortable: true,
       },
     ];
@@ -162,7 +172,7 @@ class Recordlist extends Component {
               </div>
               <div className="card-body">
                 <br />
-                {this.state.records.length
+                {this.state.isLoaded
                   ? this.dataPage()
                   : this.loadingPage()}
               </div>

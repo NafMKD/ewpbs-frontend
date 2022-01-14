@@ -5,7 +5,7 @@ const AddInfo = (props) => {
   return (
     <div className="card card-outline card-primary">
       <div className="card-header">
-        <h3 className="card-title">Service Provider Information:</h3>
+        <h3 className="card-title">Add Tarif:</h3>
       </div>
       <form onSubmit={(e)=>{props.submitForm(e)}}>
         <div className="card-body">

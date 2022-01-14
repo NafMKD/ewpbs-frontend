@@ -16,12 +16,21 @@ class AddNew extends Component {
   // handle input change
   inputChangeHandler = (e) => {
     if(typeof e.target.value !=="undefined" && e.target.value !== null && e.target.value.length>0){
+        Swal.fire({
+          width: "10%",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+        });
+        Swal.showLoading();
         const api = "http://127.0.0.1:8000/api/customer/search/"+e.target.value;
         axios.get(api).then(res=>{
+            Swal.close(); 
             this.setState({
                 customers : res.data
             });
         }).catch((err) => {
+            Swal.close();
             if (err.response) {
             this.setState({
                 errors: err.response.data.errors,

@@ -11,8 +11,16 @@ class AddNew extends Component {
         this.state = {
             fields : {},
             errors : {},
-            nextPage : false
+            nextPage : false,
+            account_user : {}
         }
+    }
+
+    componentDidMount(){
+        const account_user = JSON.parse(localStorage.getItem('account_user'));
+        this.setState({
+            account_user
+        })
     }
 
     // handle page change
@@ -126,7 +134,7 @@ class AddNew extends Component {
             Swal.showLoading();
             const api = "http://127.0.0.1:8000/api/spemployee";
             axios.post(api, {
-                'sp_id' : 1,
+                'sp_id' : this.state.account_user.sp_id,
                 'sp_emp_first_name' : this.state.fields['sp_emp_first_name'],
                 'sp_emp_middle_name' : this.state.fields['sp_emp_middle_name'],
                 'sp_emp_last_name' : this.state.fields['sp_emp_last_name'],

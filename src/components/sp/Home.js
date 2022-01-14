@@ -12,7 +12,7 @@ import ActivelistRecord from "./record/ActiveList";
 import CalculatedList from "./record/CalculatedList";
 import ActiveListBill from "./bill/ActiveList";
 import HistoryList from "./bill/HistoryList";
-import axios from "axios";
+import ErrorPage from "../ErrorPage";
 
 class Home extends Component {
   render() {
@@ -30,6 +30,9 @@ class Home extends Component {
           <Route path="/sp/meterrecord/calculated" element={<CalculatedList />} />
           <Route path="/sp/bill/active" element={<ActiveListBill />} />
           <Route path="/sp/bill/paid" element={<HistoryList />} />
+          <Route path="/sp/profile" element={""}/>
+          <Route exact path="/" element={""}/>
+          <Route path="*" element={<ErrorPage/>}/>
         </Routes>
         <Footer />
       </div>

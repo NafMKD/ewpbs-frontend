@@ -18,12 +18,13 @@ class Addrecordform extends Component {
       },
       errors: {},
       customer: {},
-      redirectToView : false
+      redirectToView : false,
+      account_user : {},
+      isLoaded : false
     };
   }
 
   componentDidMount() {
-    const api = "http://127.0.0.1:8000/api/sp/meter/" + this.state.meter_id;
     Swal.fire({
       width: "10%",
       allowOutsideClick: false,
@@ -31,11 +32,17 @@ class Addrecordform extends Component {
       allowEnterKey: false,
     });
     Swal.showLoading();
+    const account_user = JSON.parse(localStorage.getItem('account_user'));
+    this.setState({
+      account_user
+    });
+    const api = "http://127.0.0.1:8000/api/sp/meter/" + this.state.meter_id;
     axios
       .get(api)
       .then((res) => {
         this.setState({
           meter: res.data,
+          isLoaded : true
         });
         const api2 =
           "http://127.0.0.1:8000/api/customer/" + this.state.meter.customer_id;
@@ -44,10 +51,14 @@ class Addrecordform extends Component {
           .then((res2) => {
             this.setState({
               customer: res2.data,
+              isLoaded : true
             });
             Swal.close();
           })
           .catch((err2) => {
+            this.setState({
+              isLoaded : true
+            });
             console.log(err2);
             Swal.close();
             Swal.fire({
@@ -60,6 +71,9 @@ class Addrecordform extends Component {
           });
       })
       .catch((err) => {
+        this.setState({
+          isLoaded : true
+        });
         console.log(err);
         Swal.close();
         Swal.fire({
@@ -105,15 +119,15 @@ class Addrecordform extends Component {
   checkLocation = () =>{
     let lat_b = false;
     let long_b = false;
-    let m_lat = this.state.meter.meter_latitude;
-    let m_long = this.state.meter.meter_longitude;
+    let m_lat = parseFloat(this.state.meter.meter_latitude);
+    let m_long = parseFloat(this.state.meter.meter_longitude);
     let t_lat = this.props.coords.latitude;
     let t_long = this.props.coords.longitude;
-
-    if((0.999999*m_lat)<=t_lat && t_lat<=(1.0000001*m_lat)){
+    
+    if((m_lat-0.000015)<=t_lat && t_lat<=(m_lat+0.000015)){
       lat_b = true;
     }  
-    if((0.999999*m_long)<=t_long && t_long<=(1.0000001*m_long)){
+    if((m_lat-0.000015)<=t_long && t_long<=(m_long+0.000015)){
       long_b = true;
     }  
     return lat_b && long_b;
@@ -133,7 +147,7 @@ class Addrecordform extends Component {
         Swal.showLoading();
         const api = "http://127.0.0.1:8000/api/meterrecord/";
         axios.post(api, {
-            'sp_emp_id': 1,
+            'sp_emp_id': this.state.account_user.sp_emp_id,
             'meter_id': this.state.meter.meter_id,
             'meter_reading': this.state.fields['meter_reading'],
             'meter_reading_month_year': moment(this.state.fields['meter_reading_month_year']).format("YYYY-MM-DD"),
@@ -231,9 +245,12 @@ class Addrecordform extends Component {
                   Add Meter Record
                 </h3>
               </div>
-              {Object.keys(this.state.customer).length ? (
-                <AddRecordFormFun state={this.state} submitForm={this.submitForm} inputHandler={this.inputHandler} />
-              ) : (
+              {this.state.isLoaded ? 
+                Object.keys(this.state.customer).length ?
+                (
+                  <AddRecordFormFun state={this.state} submitForm={this.submitForm} inputHandler={this.inputHandler} />
+                ) : <div>No data found</div>
+              :(
                 this.loadingPage()
               )}
             </div>
