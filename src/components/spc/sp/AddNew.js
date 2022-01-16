@@ -25,7 +25,7 @@ class AddNew extends Component {
                 errors['sp_name'] = "Name cannot be empty!";
                 isValid = false;
             }else if (typeof fields["sp_name"] !== "undefined") {
-                if (!fields["sp_name"].match(/^[a-zA-Z]+$/)) {
+                if (!fields["sp_name"].match(/^[a-zA-Z ]+$/)) {
                   isValid = false;
                   errors["sp_name"] = "Only letters allowed";
                 }

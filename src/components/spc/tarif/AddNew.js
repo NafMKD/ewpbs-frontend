@@ -34,7 +34,7 @@ class AddNew extends Component {
             if (isNaN(fields["spc_tarif_meter_max"])) {
                 isValid = false;
                 errors["spc_tarif_meter_max"] = "Only Number allowed";
-            }else if (fields["spc_tarif_meter_min"] >= fields['spc_tarif_meter_max']) {
+            }else if (parseFloat(fields["spc_tarif_meter_min"]) >= parseFloat(fields['spc_tarif_meter_max'])) {
                 isValid = false;
                 errors["spc_tarif_meter_max"] = "Max reading cannot be less than or equal Min reading";
             }
@@ -46,7 +46,7 @@ class AddNew extends Component {
             if (isNaN(fields["spc_tarif_meter_min"])) {
                 isValid = false;
                 errors["spc_tarif_meter_min"] = "Only Number allowed";
-            }else if (fields["spc_tarif_meter_min"] >= fields['spc_tarif_meter_max']) {
+            }else if (parseFloat(fields["spc_tarif_meter_min"]) >= parseFloat(fields['spc_tarif_meter_max'])) {
                 isValid = false;
                 errors["spc_tarif_meter_min"] = "Min reading cannot be grater than or equal Max reading";
             }

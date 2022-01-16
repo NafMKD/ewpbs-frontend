@@ -113,7 +113,7 @@ class HistoryList extends Component {
     const columns = [
       {
         name: "id",
-        selector: (row) => row.ac_bill_id,
+        selector: (row) => row.hs_bill_id,
         sortable: true,
       },
       {
@@ -128,27 +128,27 @@ class HistoryList extends Component {
       },
       {
         name: "Previous Meter Reading",
-        selector: (row) => row.ac_meter_reading_previous,
+        selector: (row) => row.hs_meter_reading_previous,
         sortable: true,
       },
       {
-        name: "Cusrrent Meter Reading",
-        selector: (row) => row.ac_meter_reading,
+        name: "Current Meter Reading",
+        selector: (row) => row.hs_meter_reading,
         sortable: true,
       },
       {
         name: "Tarif",
-        selector: (row) => row.ac_meter_reading_tarif,
+        selector: (row) => row.hs_meter_reading_tarif,
         sortable: true,
       },
       {
-        name: "Amount(Br.)",
-        selector: (row) => row.ac_amount_birr,
+        name: "Paid Amount(Br.)",
+        selector: (row) => row.hs_paid_amount,
         sortable: true,
       },
       {
         name: "Reading Month",
-        selector: (row) => moment(row.ac_month_year).format("MM/YYYY"),
+        selector: (row) => moment(row.hc_month_year).format("MM/YYYY"),
         sortable: true,
       },
     ];
