@@ -12,7 +12,8 @@ class Paybill extends Component {
             account_user: {},
             spInformation : {},
             sp_id : this.props.sp_id,
-            bill_id : this.props.bill_id
+            bill_id : this.props.bill_id,
+            totalServiceFee : 0
         }
     }
 
@@ -67,7 +68,7 @@ class Paybill extends Component {
         Swal.showLoading();
         const api = "http://127.0.0.1:8000/api/paybill/"+this.state.bill_id;
         axios.post(api,{
-            'hs_paid_amount' : parseFloat(this.state.billDetail.ac_amount_birr) + 42.0,
+            'hs_paid_amount' : parseFloat(this.state.billDetail.ac_amount_birr) + this.state.totalServiceFee,
             'hs_paid_date' : moment(new Date()).format("YYYY-MM-DD")
         },{
             headers:{
@@ -96,10 +97,25 @@ class Paybill extends Component {
     
   render() {
     let totalFee=null;
-      if(this.state.isLoaded){
-          totalFee = parseFloat(this.state.billDetail.ac_amount_birr) + 42.0;
-          Swal.close();
+    let usageKW = 0;
+    if(this.state.isLoaded){
+      usageKW = (this.state.billDetail.ac_meter_reading) - (this.state.billDetail.ac_meter_reading_previous);
+      if(parseFloat(usageKW)>0 && parseFloat(usageKW)<=25){
+        this.state.totalServiceFee = 1.40;
+      }else if(parseFloat(usageKW)>=26 && parseFloat(usageKW)<=50){
+        this.state.totalServiceFee = 3.40;
+      }else if(parseFloat(usageKW)>=51 && parseFloat(usageKW)<=105){
+        this.state.totalServiceFee = 6.82;
+      }else if(parseFloat(usageKW)>=106 && parseFloat(usageKW)<=300){
+        this.state.totalServiceFee = 10.24;
+      }else if(parseFloat(usageKW)>300){
+        this.state.totalServiceFee = 13.65;
+      }else{
+        this.state.totalServiceFee = 0;
       }
+      totalFee = parseFloat(this.state.billDetail.ac_amount_birr) + this.state.totalServiceFee;
+      Swal.close();
+    }
     return (
       <div className="content-wrapper">
         <div className="content-header">
@@ -171,7 +187,7 @@ class Paybill extends Component {
                             <td>{moment(this.state.billDetail.ac_month_year).format("MM/YYYY")}</td>
                             <td>{this.state.billDetail.ac_meter_reading_previous}</td>
                             <td>{this.state.billDetail.ac_meter_reading}</td>
-                            <td>{(this.state.billDetail.ac_meter_reading) - (this.state.billDetail.ac_meter_reading_previous)}</td>
+                            <td>{usageKW}</td>
                             <td>{this.state.billDetail.ac_meter_reading_tarif}</td>
                           </tr>
                         </tbody>
@@ -194,7 +210,7 @@ class Paybill extends Component {
                             </tr>
                             <tr>
                               <th>Service Fee </th>
-                              <td>42.0</td>
+                              <td>{this.state.totalServiceFee}</td>
                             </tr>
                             <tr>
                               <th>Total:</th>

@@ -31,7 +31,7 @@ const Aside = (props) => {
             <li className="nav-item">
               <NavLink to="/technician/record/listview" className="nav-link">
                 <i className="nav-icon fas fa-list" />
-                <p> Meter Revord List</p>
+                <p> Meter Record List</p>
               </NavLink>
             </li> 
 

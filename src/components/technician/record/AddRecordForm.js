@@ -124,10 +124,10 @@ class Addrecordform extends Component {
     let t_lat = this.props.coords.latitude;
     let t_long = this.props.coords.longitude;
     
-    if((m_lat-0.000015)<=t_lat && t_lat<=(m_lat+0.000015)){
+    if( (Math.abs(m_lat)-0.000015) <= Math.abs(t_lat) && Math.abs(t_lat) <= (Math.abs(m_lat)+0.000015) ){
       lat_b = true;
     }  
-    if((m_lat-0.000015)<=t_long && t_long<=(m_long+0.000015)){
+    if((Math.abs(m_long)-0.000015)<=Math.abs(t_long) && Math.abs(t_long)<=(Math.abs(m_long)+0.000015)){
       long_b = true;
     }  
     return lat_b && long_b;
