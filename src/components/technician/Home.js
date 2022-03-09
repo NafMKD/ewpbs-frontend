@@ -7,6 +7,7 @@ import AddRecord from './record/AddRecord'
 import GetId from "./record/GetId"
 import Recordlist from './record/RecordList';
 import ErrorPage from '../ErrorPage';
+import Profile from './Profile';
 
 class Home extends Component {
     render() {
@@ -19,7 +20,7 @@ class Home extends Component {
                     <Route path="/technician/record/addnew/:meter_id/*" element={<GetId />} />
                     <Route path="/technician/record/listview" element={<Recordlist />} />
                     <Route exact path="/" element={""}/>
-                    <Route path="/technician/profile" element={""}/>
+                    <Route path="/technician/profile" element={<Profile />}/>
                     <Route path="*" element={<ErrorPage/>}/>
                 </Routes>
                 <Footer/>
