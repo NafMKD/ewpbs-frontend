@@ -13,7 +13,7 @@ import CalculatedList from "./record/CalculatedList";
 import ActiveListBill from "./bill/ActiveList";
 import HistoryList from "./bill/HistoryList";
 import ErrorPage from "../ErrorPage";
-
+import ProfileMain from "./profile/Main";
 class Home extends Component {
   render() {
     return (
@@ -24,15 +24,21 @@ class Home extends Component {
           <Route path="/sp/technician/addnew" element={<AddNewTech />} />
           <Route path="/sp/technician/listview/*" element={<ListViewTech />} />
           <Route path="/sp/customer/addnew" element={<AddNewCust />} />
-          <Route path="/sp/customer/addnew/:customer_id/*" element={<GetId />} />
+          <Route
+            path="/sp/customer/addnew/:customer_id/*"
+            element={<GetId />}
+          />
           <Route path="/sp/customer/listview/*" element={<ListViewCust />} />
           <Route path="/sp/meterrecord/active" element={<ActivelistRecord />} />
-          <Route path="/sp/meterrecord/calculated" element={<CalculatedList />} />
+          <Route
+            path="/sp/meterrecord/calculated"
+            element={<CalculatedList />}
+          />
           <Route path="/sp/bill/active" element={<ActiveListBill />} />
           <Route path="/sp/bill/paid" element={<HistoryList />} />
-          <Route path="/sp/profile" element={""}/>
-          <Route exact path="/" element={""}/>
-          <Route path="*" element={<ErrorPage/>}/>
+          <Route path="/sp/profile" element={<ProfileMain />} />
+          <Route exact path="/" element={""} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
       </div>

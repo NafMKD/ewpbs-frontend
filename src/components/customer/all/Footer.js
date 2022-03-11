@@ -4,9 +4,7 @@ import React from "react";
 const Footer = (props) => {
   return (
     <footer className="main-footer">
-      <strong>
-        Copyright © {moment(new Date()).format("Y")} <a target="_blank" href="http://linose-studio.herokuapp.com/" rel="noreferrer">Linose <em>Studio</em></a>.
-      </strong>
+      <strong>Copyright © {moment(new Date()).format("Y")}.</strong>
       All rights reserved.
       <div className="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0.0

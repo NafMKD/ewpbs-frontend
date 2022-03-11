@@ -150,7 +150,7 @@ class Addcustomer extends Component {
           }
         )
         .then((res) => {
-          localStorage.setItem("account_type", 'customer');
+          localStorage.setItem("account_type", "customer");
           localStorage.setItem("account_user", JSON.stringify(res.data.data));
           Swal.close();
           Swal.fire({
@@ -524,14 +524,14 @@ class Addcustomer extends Component {
                   <div className="col-8"></div>
                   <div className="col-4">
                     <button type="submit" className="btn btn-primary btn-block">
-                      Sign In
+                      Sign up
                     </button>
                   </div>
                 </div>
               </form>
               <p className="mb-0">
                 <Link to="/" className="text-center">
-                  Sign Up
+                  Sign in
                 </Link>
               </p>
             </div>
