@@ -14,6 +14,7 @@ import ActiveListBill from "./bill/ActiveList";
 import HistoryList from "./bill/HistoryList";
 import ErrorPage from "../ErrorPage";
 import ProfileMain from "./profile/Main";
+import Dashboard from "./Dashboard";
 class Home extends Component {
   render() {
     return (
@@ -37,7 +38,7 @@ class Home extends Component {
           <Route path="/sp/bill/active" element={<ActiveListBill />} />
           <Route path="/sp/bill/paid" element={<HistoryList />} />
           <Route path="/sp/profile" element={<ProfileMain />} />
-          <Route exact path="/" element={""} />
+          <Route exact path="/" element={<Dashboard />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

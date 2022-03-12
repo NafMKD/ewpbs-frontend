@@ -150,7 +150,7 @@ class Account extends Component {
               <button
                 type="submit"
                 onClick={(e) => this.submitFormData(e)}
-                class="btn btn-success float-right"
+                className="btn btn-success float-right"
               >
                 <i className="fas fa-check mr-2"></i>
                 change

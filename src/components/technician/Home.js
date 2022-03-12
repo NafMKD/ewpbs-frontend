@@ -8,7 +8,7 @@ import GetId from "./record/GetId";
 import Recordlist from "./record/RecordList";
 import ErrorPage from "../ErrorPage";
 import ProfileMain from "./profile/Main";
-
+import Dashboard from "./Dashboard";
 class Home extends Component {
   render() {
     return (
@@ -22,7 +22,7 @@ class Home extends Component {
             element={<GetId />}
           />
           <Route path="/technician/record/listview" element={<Recordlist />} />
-          <Route exact path="/" element={""} />
+          <Route exact path="/" element={<Dashboard />} />
           <Route path="/technician/profile" element={<ProfileMain />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

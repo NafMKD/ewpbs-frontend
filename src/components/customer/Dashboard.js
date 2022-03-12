@@ -13,29 +13,27 @@ const loadingPage = () => {
   Swal.showLoading();
   return <p>No data available...</p>;
 };
+
 const Dashboard = () => {
-  const [dashCount, setDashCount] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [amount, setAmount] = useState([]);
+  const [dash, setDash] = useState([]);
   const thisMonth = [moment().format("M"), moment().format("[1] MMM, Y")];
-  const lastMonth = [
-    moment().subtract(1, "months").format("M"),
-    moment().subtract(1, "months").format("[1] MMM, Y"),
-  ];
-  const [activeAmount, setActiveAmount] = useState(0);
-  const [paidAmount, setPaidAmount] = useState(0);
   if (!isLoaded) {
-    const api = "http://127.0.0.1:8000/api/dashboard/count/all";
+    const api =
+      "http://127.0.0.1:8000/api/customer/dashboard/" +
+      JSON.parse(localStorage.getItem("account_user")).customer_id;
     axios
       .get(api)
       .then((res) => {
         Swal.close();
         setIsLoaded(true);
-        setDashCount(res.data);
+        setDash(res.data);
       })
       .catch((err) => {
+        Swal.close();
         setIsLoaded(true);
         console.log(err);
-        Swal.close();
         Swal.fire({
           title: "Something went wrong!",
           icon: "error",
@@ -46,29 +44,14 @@ const Dashboard = () => {
       });
 
     const api2 =
-      "http://127.0.0.1:8000/api/dashboard/allactiveincome/" + thisMonth[0];
+      "http://127.0.0.1:8000/api/customer/dashboard/bill/" +
+      JSON.parse(localStorage.getItem("account_user")).customer_id +
+      "/" +
+      thisMonth[0];
     axios
       .get(api2)
       .then((res) => {
-        setActiveAmount(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        Swal.fire({
-          title: "Something went wrong!",
-          icon: "error",
-          text: "we loss connection to the database!",
-          showCancelButton: false,
-          showConfirmButton: false,
-        });
-      });
-
-    const api3 =
-      "http://127.0.0.1:8000/api/dashboard/allhistoryincome/" + thisMonth[0];
-    axios
-      .get(api3)
-      .then((res) => {
-        setPaidAmount(res.data);
+        setAmount(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -83,28 +66,16 @@ const Dashboard = () => {
   }
   const lists = [
     {
-      class: "fa-university",
-      name: "Service Providers C.",
-      count: dashCount[0],
+      class: "fa-cog",
       bg: "bg-info",
+      name: "Active Bill",
+      count: dash[1],
     },
     {
-      class: "fa-home",
-      bg: "bg-primary",
-      name: "Service Providers",
-      count: dashCount[1],
-    },
-    {
-      class: "fa-users",
-      bg: "bg-secondary",
-      name: "Customers",
-      count: dashCount[2],
-    },
-    {
-      class: "fa-wrench",
+      class: "fa-check",
       bg: "bg-warning",
-      name: "Technicians",
-      count: dashCount[3],
+      name: "Paid Bill",
+      count: dash[0],
     },
   ];
   const content = lists.map((list) => {
@@ -122,7 +93,6 @@ const Dashboard = () => {
       </div>
     );
   });
-  var totalAmount = paidAmount + activeAmount;
   return (
     <>
       <div className="content-wrapper">
@@ -166,8 +136,7 @@ const Dashboard = () => {
                       <div className="col-sm-4 col-6">
                         <div className="description-block border-right">
                           <h5 className="description-header">
-                            {(Math.round(totalAmount * 100) / 100).toFixed(2)}{" "}
-                            Br.
+                            {(Math.round(amount[0] * 100) / 100).toFixed(2)} Br.
                           </h5>
                           <span className="description-text">TOTAL AMOUNT</span>
                         </div>
@@ -175,7 +144,7 @@ const Dashboard = () => {
                       <div className="col-sm-4 col-6">
                         <div className="description-block border-right">
                           <h5 className="description-header">
-                            {activeAmount} Br.
+                            {amount[1]} Br.
                           </h5>
                           <span className="description-text">ACTIVE</span>
                         </div>
@@ -183,7 +152,7 @@ const Dashboard = () => {
                       <div className="col-sm-4 col-6">
                         <div className="description-block">
                           <h5 className="description-header">
-                            {paidAmount} Br.
+                            {amount[2]} Br.
                           </h5>
                           <span className="description-text">PAID</span>
                         </div>

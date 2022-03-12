@@ -9,7 +9,7 @@ import AddNewTarif from "./tarif/AddNew";
 import ListViewTarif from "./tarif/ListView";
 import ErrorPage from "../ErrorPage";
 import ProfileMain from "./profile/Main";
-
+import Dashboard from "./Dashboard";
 class Home extends Component {
   render() {
     return (
@@ -22,7 +22,7 @@ class Home extends Component {
           <Route path="/spc/tarif/addnew" element={<AddNewTarif />} />
           <Route path="/spc/tarif/listview/*" element={<ListViewTarif />} />
           <Route path="/spc/profile" element={<ProfileMain />} />
-          <Route exact path="/" element={""} />
+          <Route exact path="/" element={<Dashboard />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footerd />
